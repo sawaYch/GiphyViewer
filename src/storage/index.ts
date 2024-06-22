@@ -1,1 +1,1 @@
-export * from './mmkv';
+export * from './zustandMMKV';
