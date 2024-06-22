@@ -20,13 +20,20 @@ const Layout = ({ children }: PropsWithChildren) => {
   return (
     <View
       style={{
-        backgroundColor: theme.colors.background,
+        backgroundColor: theme.colors.primary,
         flexGrow: 1,
         flex: 1,
         flexWrap: 'wrap',
         width: '100%',
       }}>
       <Header
+        backgroundColor={theme.colors.primary}
+        centerContainerStyle={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
         centerComponent={{
           text: 'Giphy Viewer',
           style: {

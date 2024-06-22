@@ -1,7 +1,7 @@
 import { Tab, TabView } from '@rneui/themed';
 import { useMemo, useState } from 'react';
 import SearchTab from './SearchTab';
-import FavoriteTab from './FavouriteTab';
+import FavoriteTab from './FavoriteTab';
 
 const TabNavigator = () => {
   const [tabIndex, setTabIndex] = useState(0);

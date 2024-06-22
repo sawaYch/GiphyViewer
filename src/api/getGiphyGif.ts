@@ -27,13 +27,18 @@ const trendingGifsSchema = z.object({
 type TrendingGifApiResponse = z.infer<typeof trendingGifsSchema>;
 export type GifItem = z.infer<typeof trendingGifSchema>;
 
-export const getTrendingGif = async (): Promise<GifItem[]> => {
+export const getGiphyGif = async (keyword: string): Promise<GifItem[]> => {
   if (Config.GIPHY_API_KEY == null)
     throw new Error('Error: Giphy API Key is missing.');
 
+  const endpoint =
+    keyword.trim() === ''
+      ? `https://api.giphy.com/v1/gifs/trending?api_key=${Config.GIPHY_API_KEY}&limit=40`
+      : `https://api.giphy.com/v1/gifs/search?api_key=${Config.GIPHY_API_KEY}&q=${keyword}&limit=40`;
+
   // limit should be multiply of 4 for better UI/UX
   const response: AxiosResponse<TrendingGifApiResponse> = await axios.get(
-    `https://api.giphy.com/v1/gifs/trending?api_key=${Config.GIPHY_API_KEY}&limit=40`
+    endpoint
   );
 
   const transformedData: GifItem[] = response.data.data.map(it => ({
