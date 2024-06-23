@@ -43,7 +43,7 @@ npm run android
 - [x]  config prettier
 - [x]  integrate zustand
 - [x]  integrate mmkv
-- [ ]  unit test 85% coverage
+- [x]  unit test 85% coverage
 - [x]  ci/cd pipeline
 
 ### Search page
