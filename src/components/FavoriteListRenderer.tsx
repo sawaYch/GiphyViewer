@@ -6,27 +6,30 @@ export const FavoriteListRenderer = ({
   item,
   imageWidth,
   removeFavorite,
+  shareFavorite,
   favorites,
 }: {
   item: Favorite;
   imageWidth: number;
   removeFavorite: (id: string) => void;
+  shareFavorite: (source: string) => void;
   favorites: Favorite[];
 }) => {
   return (
-    <Pressable
-      onPress={() => {
-        removeFavorite(item.id);
-      }}>
-      <Image
-        style={{
-          width: imageWidth,
-          height: imageWidth,
-        }}
-        source={{
-          uri: item.source,
-        }}
-        PlaceholderContent={<ActivityIndicator color='blue' />}>
+    <Image
+      style={{
+        width: imageWidth,
+        height: imageWidth,
+        justifyContent: 'space-between',
+      }}
+      source={{
+        uri: item.source,
+      }}
+      PlaceholderContent={<ActivityIndicator color='blue' />}>
+      <Pressable
+        onPress={() => {
+          removeFavorite(item.id);
+        }}>
         {favorites.some(it => it.id === item.id) ? (
           <Icon
             name='star'
@@ -40,7 +43,17 @@ export const FavoriteListRenderer = ({
             color='orange'
           />
         )}
-      </Image>
-    </Pressable>
+      </Pressable>
+      <Pressable
+        onPress={() => {
+          shareFavorite(item.source);
+        }}>
+        <Icon
+          name='share'
+          style={{ alignItems: 'flex-end', marginEnd: 2, marginBottom: 2 }}
+          color='white'
+        />
+      </Pressable>
+    </Image>
   );
 };

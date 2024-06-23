@@ -1,5 +1,5 @@
 import { SearchBar } from '@rneui/themed';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import {
   FlatList,
@@ -12,10 +12,12 @@ import type { GifItem } from '../api';
 import { useFavoriteGifStore, useImageWidth } from '../hooks';
 import { GifListRenderer } from './GifListRenderer';
 import { ListEmptyComponent } from './ListEmptyComponent';
+import Config from 'react-native-config';
 
 const SearchTab = () => {
   const [search, setSearch] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+  const [page, setPage] = useState(0);
 
   const updateSearch = (search: string) => {
     setSearch(search);
@@ -24,19 +26,37 @@ const SearchTab = () => {
   const favorites = useFavoriteGifStore(state => state.favorites);
   const addFavorite = useFavoriteGifStore(state => state.addFavorite);
 
-  const { error, data, isLoading, isError, refetch } = useQuery<GifItem[]>({
-    queryKey: ['trending'],
-    queryFn: () => getGiphyGif(search),
-  });
+  const { error, data, isLoading, isError, refetch, isPlaceholderData } =
+    useQuery<GifItem[]>({
+      queryKey: ['search', search, page],
+      queryFn: () => getGiphyGif(search, page),
+      placeholderData: keepPreviousData,
+    });
+
+  const [isPending, setIsPending] = useState(false);
+
+  const [listData, setListData] = useState<GifItem[]>([]);
+  useEffect(() => {
+    if (data != null) {
+      setListData(prev => [...prev, ...data]);
+    }
+  }, [data]);
 
   const searchGif = async () => {
+    setPage(0);
+    setListData([]);
+    setIsPending(true);
     await refetch();
+    setIsPending(false);
   };
 
   useEffect(() => {
     void (async () => {
       if (search.trim() == '') {
+        setListData([]);
+        setIsPending(true);
         await refetch();
+        setIsPending(false);
       }
     })();
   }, [search]);
@@ -45,9 +65,13 @@ const SearchTab = () => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
+    setPage(0);
+    setListData([]);
+    setIsPending(true);
     await refetch();
     setRefreshing(false);
-  }, []);
+    setIsPending(false);
+  }, [refetch]);
 
   const addToFavorite = useCallback(
     (item: { id: string; source: string }) => {
@@ -57,9 +81,16 @@ const SearchTab = () => {
     [addFavorite]
   );
 
+  const fetchNext = useCallback(() => {
+    if (!isPlaceholderData) {
+      setPage(old => old + 1);
+    }
+  }, [isPlaceholderData]);
+
   useEffect(() => {
+    console.log('api key', Config.GIPHY_API_KEY);
     if (isError) {
-      console.error(error);
+      console.error('error', error);
     }
   }, [isError, error]);
 
@@ -79,8 +110,8 @@ const SearchTab = () => {
         value={search}
       />
       <FlatList
-        data={data}
-        numColumns={4}
+        data={listData}
+        numColumns={3}
         windowSize={10}
         keyExtractor={k => k.id}
         refreshControl={
@@ -89,8 +120,10 @@ const SearchTab = () => {
             onRefresh={onRefresh}
           />
         }
+        onEndReachedThreshold={0.2}
+        onEndReached={fetchNext}
         contentContainerStyle={{ flexGrow: 1 }}
-        ListEmptyComponent={ListEmptyComponent(isError)}
+        ListEmptyComponent={ListEmptyComponent(isError, isLoading || isPending)}
         renderItem={item =>
           GifListRenderer({ ...item, imageWidth, addToFavorite, favorites })
         }

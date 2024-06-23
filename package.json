@@ -9,7 +9,7 @@
     "start": "react-native start",
     "test": "jest",
     "ci:lint": "eslint --ext .ts,.tsx ./src ./App.tsx",
-    "ci:prettier": "prettier -w .",
+    "ci:prettier": "prettier -w ./src ./App.tsx",
     "ci:typecheck": "tsc --noEmit",
     "codecheck": "npm run ci:typecheck && npm run ci:prettier && npm run ci:lint"
   },

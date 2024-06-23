@@ -19,7 +19,7 @@ export const GifListRenderer = ({
       onPress={() => {
         addToFavorite({
           id: item.id,
-          source: item.images.fixed_width.webp,
+          source: item.images.fixed_width.url,
         });
       }}>
       <Image
@@ -28,7 +28,7 @@ export const GifListRenderer = ({
           height: imageWidth,
         }}
         source={{
-          uri: item.images.fixed_width.webp,
+          uri: item.images.fixed_width.url,
         }}
         PlaceholderContent={<ActivityIndicator color='blue' />}>
         {favorites.some(it => it.id === item.id) ? (

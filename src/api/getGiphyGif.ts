@@ -16,6 +16,7 @@ const trendingGifSchema = z.object({
       height: z.number(),
       width: z.number(),
       webp: z.string(),
+      url: z.string(),
     }),
   }),
 });
@@ -27,14 +28,25 @@ const trendingGifsSchema = z.object({
 type TrendingGifApiResponse = z.infer<typeof trendingGifsSchema>;
 export type GifItem = z.infer<typeof trendingGifSchema>;
 
-export const getGiphyGif = async (keyword: string): Promise<GifItem[]> => {
+export const getGiphyGif = async (
+  keyword: string,
+  page: number
+): Promise<GifItem[]> => {
   if (Config.GIPHY_API_KEY == null)
     throw new Error('Error: Giphy API Key is missing.');
+  if (page < 0)
+    throw new Error(`Error: Invalid Query Param value "offset" = ${page}`);
+
+  const pageSize = 15;
 
   const endpoint =
     keyword.trim() === ''
-      ? `https://api.giphy.com/v1/gifs/trending?api_key=${Config.GIPHY_API_KEY}&limit=40`
-      : `https://api.giphy.com/v1/gifs/search?api_key=${Config.GIPHY_API_KEY}&q=${keyword}&limit=40`;
+      ? `https://api.giphy.com/v1/gifs/trending?api_key=${
+          Config.GIPHY_API_KEY
+        }&limit=${pageSize}&offset=${pageSize * page}`
+      : `https://api.giphy.com/v1/gifs/search?api_key=${
+          Config.GIPHY_API_KEY
+        }&q=${keyword}&limit=${pageSize}&offset=${pageSize * page}`;
 
   // limit should be multiply of 4 for better UI/UX
   const response: AxiosResponse<TrendingGifApiResponse> = await axios.get(

@@ -4,8 +4,8 @@ import { useWindowDimensions } from 'react-native';
 export const useImageWidth = () => {
   const { width } = useWindowDimensions();
   const imageWidth = useMemo(() => {
-    return width / 4;
-  }, []);
+    return width / 3;
+  }, [width]);
 
   return imageWidth;
 };

@@ -1,6 +1,10 @@
 import { Text, View } from 'react-native';
 
-export const ListEmptyComponent = (isError: boolean, emptyMessage?: string) => {
+export const ListEmptyComponent = (
+  isError: boolean,
+  isLoading: boolean,
+  emptyMessage?: string
+) => {
   return isError ? (
     <View
       style={{
@@ -11,6 +15,8 @@ export const ListEmptyComponent = (isError: boolean, emptyMessage?: string) => {
       }}>
       <Text>☠️ Some error occur... Please try again!</Text>
     </View>
+  ) : isLoading ? (
+    <></>
   ) : (
     <View
       style={{

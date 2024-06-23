@@ -1,12 +1,28 @@
-import { FlatList, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  Alert,
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  Share,
+} from 'react-native';
 import { FavoriteListRenderer } from './FavoriteListRenderer';
 import { ListEmptyComponent } from './ListEmptyComponent';
 import { useFavoriteGifStore, useImageWidth } from '../hooks';
+import { useCallback } from 'react';
 
 const FavoriteTab = () => {
   const favorites = useFavoriteGifStore(state => state.favorites);
   const removeFavorite = useFavoriteGifStore(state => state.removeFavorite);
   const imageWidth = useImageWidth();
+  const shareFavorite = useCallback(async (source: string) => {
+    try {
+      await Share.share({
+        message: source,
+      });
+    } catch (error: unknown) {
+      Alert.alert(JSON.stringify(error));
+    }
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -25,6 +41,7 @@ const FavoriteTab = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         ListEmptyComponent={ListEmptyComponent(
           false,
+          false,
           '🤧 No favorite Gifs yet!'
         )}
         renderItem={item =>
@@ -32,6 +49,7 @@ const FavoriteTab = () => {
             ...item,
             imageWidth,
             removeFavorite,
+            shareFavorite,
             favorites,
           })
         }
