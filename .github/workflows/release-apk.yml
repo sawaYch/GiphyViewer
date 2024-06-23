@@ -1,0 +1,51 @@
+name: Release
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install npm dependencies
+        run: |
+          npm ci
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '17'
+
+      - name: Create env file
+        run: |
+          touch .env
+          echo GIPHY_API_KEY=${{ secrets.GIPHY_API_KEY }} >> .env
+
+      - name: Build Android Release
+        run: |
+          cd android && ./gradlew assembleRelease
+
+      - name: Get commit hash
+        shell: bash
+        run: |
+          echo "sha_short=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_ENV"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./**/*.apk
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./android/app/build/outputs/apk/release/*.apk
