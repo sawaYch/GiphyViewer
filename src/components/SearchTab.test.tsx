@@ -109,6 +109,8 @@ describe('SearchTab', () => {
 
     // Verify if FlatList is rendered
     const gifImage = getByTestId('gif-image');
+    const pressableComponent = getByTestId('pressable');
+    fireEvent.press(pressableComponent);
     expect(gifImage).toBeDefined();
   });
 });
