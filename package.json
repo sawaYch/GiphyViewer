@@ -11,7 +11,7 @@
     "ci:prettier": "prettier -w ./src",
     "ci:typecheck": "tsc --noEmit",
     "codecheck": "npm run ci:typecheck && npm run ci:prettier && npm run ci:lint",
-    "ci:test": "jest --coverage"
+    "ci:test": "jest --coverage --coverageReporters='json-summary'"
   },
   "dependencies": {
     "@rneui/base": "^4.0.0-rc.7",
