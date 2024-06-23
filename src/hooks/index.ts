@@ -1,2 +1,2 @@
-export * from './useStore';
+export * from './useFavoriteGifStore';
 export * from './useImageWidth';

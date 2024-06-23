@@ -17,6 +17,7 @@ export const FavoriteListRenderer = ({
 }) => {
   return (
     <Image
+      testID='favorite-image'
       style={{
         width: imageWidth,
         height: imageWidth,
@@ -27,6 +28,7 @@ export const FavoriteListRenderer = ({
       }}
       PlaceholderContent={<ActivityIndicator color='blue' />}>
       <Pressable
+        testID='remove-favorite'
         onPress={() => {
           removeFavorite(item.id);
         }}>
@@ -45,6 +47,7 @@ export const FavoriteListRenderer = ({
         )}
       </Pressable>
       <Pressable
+        testID='share-favorite'
         onPress={() => {
           shareFavorite(item.source);
         }}>

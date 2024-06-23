@@ -1,32 +1,7 @@
 import axios from 'axios';
 import type { AxiosResponse } from 'axios';
 import Config from 'react-native-config';
-import { z } from 'zod';
-
-/**
- * The Gif Object schema used by GiphyViewer,
- */
-const trendingGifSchema = z.object({
-  id: z.string(),
-  url: z.string(),
-  alt_text: z.string(),
-  title: z.string(),
-  images: z.object({
-    fixed_width: z.object({
-      height: z.number(),
-      width: z.number(),
-      webp: z.string(),
-      url: z.string(),
-    }),
-  }),
-});
-
-const trendingGifsSchema = z.object({
-  data: z.array(trendingGifSchema),
-});
-
-type TrendingGifApiResponse = z.infer<typeof trendingGifsSchema>;
-export type GifItem = z.infer<typeof trendingGifSchema>;
+import type { GifItem, GiphyApiResponseType } from './apiSchema';
 
 export const getGiphyGif = async (
   keyword: string,
@@ -49,7 +24,7 @@ export const getGiphyGif = async (
         }&q=${keyword}&limit=${pageSize}&offset=${pageSize * page}`;
 
   // limit should be multiply of 4 for better UI/UX
-  const response: AxiosResponse<TrendingGifApiResponse> = await axios.get(
+  const response: AxiosResponse<GiphyApiResponseType> = await axios.get(
     endpoint
   );
 

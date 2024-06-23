@@ -34,16 +34,17 @@ const FavoriteTab = () => {
         minHeight: '100%',
       }}>
       <FlatList
+        testID='favorite-list'
         data={favorites}
         numColumns={4}
         windowSize={10}
         keyExtractor={k => k.id}
         contentContainerStyle={{ flexGrow: 1 }}
-        ListEmptyComponent={ListEmptyComponent(
-          false,
-          false,
-          '🤧 No favorite Gifs yet!'
-        )}
+        ListEmptyComponent={ListEmptyComponent({
+          isError: false,
+          isLoading: false,
+          emptyMessage: '🤧 No favorite Gifs yet!',
+        })}
         renderItem={item =>
           FavoriteListRenderer({
             ...item,

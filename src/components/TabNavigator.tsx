@@ -40,7 +40,9 @@ const TabNavigator = () => {
           margin: 0,
         }}>
         {tabPages.map(tab => (
-          <TabView.Item key={tab.title}>{tab.pageComponent}</TabView.Item>
+          <TabView.Item testID='tab-view' key={tab.title}>
+            {tab.pageComponent}
+          </TabView.Item>
         ))}
       </TabView>
       <Tab

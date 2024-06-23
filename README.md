@@ -2,6 +2,11 @@
 
 [![Code Check](https://github.com/sawaYch/GiphyViewer/actions/workflows/code-check.yml/badge.svg)](https://github.com/sawaYch/GiphyViewer/actions/workflows/code-check.yml)
 [![Release](https://github.com/sawaYch/GiphyViewer/actions/workflows/release-apk.yml/badge.svg?event=push)](https://github.com/sawaYch/GiphyViewer/actions/workflows/release-apk.yml)
+![Branches](./badges/coverage-branches.svg)
+![Functions](./badges/coverage-functions.svg)
+![Lines](./badges/coverage-lines.svg)
+![Statements](./badges/coverage-statements.svg)
+![Coverage total](./badges/coverage-total.svg)
 
 This is a simply react native giphy viewer application for interview code test purpose. Since I personally don't have Apple Developer Program subscription and MacBook, this app is only wired up and tested on Android platform.  
 

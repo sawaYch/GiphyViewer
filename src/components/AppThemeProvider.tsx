@@ -8,7 +8,7 @@ import {
 import type { PropsWithChildren } from 'react';
 import { Platform } from 'react-native';
 
-const AppThemeProvider = ({ children }: PropsWithChildren) => {
+export const AppThemeProvider = ({ children }: PropsWithChildren) => {
   const { mode } = useThemeMode();
 
   const theme = createTheme({
@@ -30,5 +30,3 @@ const AppThemeProvider = ({ children }: PropsWithChildren) => {
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
-
-export default AppThemeProvider;

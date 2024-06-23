@@ -1,10 +1,16 @@
 import { Text, View } from 'react-native';
 
-export const ListEmptyComponent = (
-  isError: boolean,
-  isLoading: boolean,
-  emptyMessage?: string
-) => {
+interface ListEmptyComponentProps {
+  isError: boolean;
+  isLoading: boolean;
+  emptyMessage?: string;
+}
+
+export const ListEmptyComponent = ({
+  isError,
+  isLoading,
+  emptyMessage,
+}: ListEmptyComponentProps) => {
   return isError ? (
     <View
       style={{

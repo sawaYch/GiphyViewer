@@ -98,6 +98,8 @@ const SearchTab = () => {
   useEffect(() => {
     if (isError) {
       console.error('error', error);
+      setRefreshing(false);
+      setIsPending(false);
     }
   }, [isError, error]);
 
@@ -117,6 +119,7 @@ const SearchTab = () => {
         value={search}
       />
       <FlatList
+        testID='gif-list'
         data={listData}
         numColumns={3}
         windowSize={10}
@@ -130,10 +133,10 @@ const SearchTab = () => {
         onEndReachedThreshold={0.2}
         onEndReached={fetchNext}
         contentContainerStyle={{ flexGrow: 1 }}
-        ListEmptyComponent={ListEmptyComponent(
-          isError,
-          isLoading || isPending || isRefetching
-        )}
+        ListEmptyComponent={ListEmptyComponent({
+          isError: isError,
+          isLoading: isLoading || isPending || isRefetching,
+        })}
         renderItem={item =>
           GifListRenderer({ ...item, imageWidth, addToFavorite, favorites })
         }

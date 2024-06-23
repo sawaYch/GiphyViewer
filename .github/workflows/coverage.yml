@@ -1,0 +1,26 @@
+name: Coverage Report
+
+on: [push]
+
+jobs:
+  my-workflow:
+    name: 📣 Generate cool badges
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Restore project deps
+        run: npm ci
+
+      - name: 🔍 Tests
+        run: npm run ci:test
+
+      - name: ⚙️ Generating coverage badges
+        uses: jpb06/coverage-badges-action@latest
+        with:
+          branches: main
+          badges-icon: jest

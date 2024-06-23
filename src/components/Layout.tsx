@@ -19,6 +19,7 @@ const Layout = ({ children }: PropsWithChildren) => {
 
   return (
     <View
+      testID='layout-component'
       style={{
         backgroundColor: theme.colors.primary,
         flexGrow: 1,
@@ -44,7 +45,11 @@ const Layout = ({ children }: PropsWithChildren) => {
         }}
         rightComponent={
           <Button radius={'xl'} onPress={toggleDarkMode}>
-            <Icon name={iconName} color='white' />
+            <Icon
+              testID='dark-mode-toggle-icon'
+              name={iconName}
+              color='white'
+            />
           </Button>
         }
       />

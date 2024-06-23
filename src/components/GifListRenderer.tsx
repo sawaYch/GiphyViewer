@@ -3,19 +3,22 @@ import { ActivityIndicator, Pressable } from 'react-native';
 import type { GifItem } from '../api';
 import type { Favorite } from '../hooks';
 
+export interface GifListRendererProps {
+  item: GifItem;
+  imageWidth: number;
+  addToFavorite: (item: { id: string; source: string }) => void;
+  favorites: Favorite[];
+}
+
 export const GifListRenderer = ({
   item,
   imageWidth,
   addToFavorite,
   favorites,
-}: {
-  item: GifItem;
-  imageWidth: number;
-  addToFavorite: (item: { id: string; source: string }) => void;
-  favorites: Favorite[];
-}) => {
+}: GifListRendererProps) => {
   return (
     <Pressable
+      testID='pressable'
       onPress={() => {
         addToFavorite({
           id: item.id,
@@ -23,6 +26,7 @@ export const GifListRenderer = ({
         });
       }}>
       <Image
+        testID='gif-image'
         style={{
           width: imageWidth,
           height: imageWidth,
