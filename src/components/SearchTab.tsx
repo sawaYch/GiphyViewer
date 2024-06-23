@@ -97,7 +97,6 @@ const SearchTab = () => {
 
   useEffect(() => {
     if (isError) {
-      console.error('error', error);
       setRefreshing(false);
       setIsPending(false);
     }

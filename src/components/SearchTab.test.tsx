@@ -8,8 +8,6 @@ jest.mock('@tanstack/react-query', () => ({
   useQuery: jest.fn(),
 }));
 
-// Mock your custom hooks or functions like useImageWidth, useFavoriteGifStore, getGiphyGif, etc. if needed
-
 describe('SearchTab', () => {
   beforeEach(() => {
     // Clear any mocked implementations or mockReturnValue setups before each test
@@ -61,5 +59,56 @@ describe('SearchTab', () => {
     await waitFor(() => {
       expect(mockRefetch).toHaveBeenCalled();
     });
+  });
+
+  it('should show error message', () => {
+    // Mocking useQuery hook response
+    (useQuery as jest.Mock).mockReturnValue({
+      data: [],
+      isLoading: false,
+      isError: true,
+      error: 'mock error',
+      refetch: jest.fn(),
+      isPlaceholderData: false,
+      isRefetching: false,
+    });
+
+    const { getByText } = render(<SearchTab />);
+
+    // Verify if FlatList is rendered
+    const flatList = getByText('☠️ Some error occur... Please try again!');
+    expect(flatList).toBeDefined();
+  });
+
+  it('should show items', () => {
+    // Mocking useQuery hook response
+    (useQuery as jest.Mock).mockReturnValue({
+      data: [
+        {
+          title: '',
+          id: '1',
+          alt_text: 'test',
+          images: {
+            fixed_width: {
+              width: 100,
+              height: 100,
+              url: 'test',
+              webp: 'test',
+            },
+          },
+        },
+      ],
+      isLoading: false,
+      isError: false,
+      refetch: jest.fn(),
+      isPlaceholderData: false,
+      isRefetching: false,
+    });
+
+    const { getByTestId } = render(<SearchTab />);
+
+    // Verify if FlatList is rendered
+    const gifImage = getByTestId('gif-image');
+    expect(gifImage).toBeDefined();
   });
 });
