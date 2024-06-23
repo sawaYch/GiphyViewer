@@ -35,7 +35,7 @@ const FavoriteTab = () => {
       <FlatList
         testID='favorite-list'
         data={favorites}
-        numColumns={4}
+        numColumns={3}
         windowSize={10}
         keyExtractor={k => k.id}
         contentContainerStyle={{ flexGrow: 1 }}
