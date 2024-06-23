@@ -16,7 +16,10 @@ Github action deploy a release build which include a free tier Giphy API Key usi
 
 ## Demo Video
 
-[![https://www.youtube.com/watch?v=6U1tVsq55kc](https://img.youtube.com/vi/6U1tVsq55kc/0.jpg)](https://www.youtube.com/watch?v=6U1tVsq55kc)
+<https://github.com/sawaYch/GiphyViewer/assets/34698182/1fc338ce-8f09-4981-b7ae-78bf83390ba5>
+
+__<https://www.youtube.com/watch?v=6U1tVsq55kc>__
+
 
 ## Get Started
 
