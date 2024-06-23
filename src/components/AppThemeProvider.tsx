@@ -27,6 +27,5 @@ export const AppThemeProvider = ({ children }: PropsWithChildren) => {
     spacing: { xs: 2, sm: 4, md: 8, lg: 12, xl: 24 },
     mode,
   });
-
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
