@@ -28,7 +28,6 @@ const FavoriteTab = () => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{
-        flex: 1,
         flexGrow: 1,
         flexDirection: 'column',
         minHeight: '100%',
